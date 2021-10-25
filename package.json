@@ -1,8 +1,8 @@
 {
-    "name": "awesome-nest-boilerplate",
-    "version": "8.0.0",
-    "description": "Awesome NestJS Boilerplate, Typescript, Postgres, TypeORM",
-    "author": "Narek Hakobyan <narek.hakobyan.07@gmail.com>",
+    "name": "api-bookstore-diana",
+    "version": "1.0.0",
+    "description": "API for book store app",
+    "author": "Roman Sazhniev",
     "private": true,
     "license": "MIT",
     "scripts": {
@@ -12,6 +12,7 @@
         "start:dev": "ts-node src/main.ts",
         "start:prod": "node dist/main.js",
         "typeorm": "ts-node node_modules/typeorm/cli.js  -f ormconfig",
+        "migrate": "yarn migration:generate migration_name",
         "migration:generate": "yarn run typeorm migration:generate -d src/database/migrations -n",
         "migration:create": "yarn run typeorm migration:create -d src/database/migrations -n",
         "seed:config": "ts-node node_modules/typeorm-seeding/dist/cli.js config",
