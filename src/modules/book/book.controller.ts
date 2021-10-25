@@ -10,9 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { RoleType } from '../../common/constants/role-type';
 import { PageDto } from '../../common/dto/page.dto';
-import { Auth } from '../../decorators/http.decorators';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
 import { BooksPageOptionsDto } from './dto/books-page-options.dto';
@@ -38,7 +36,6 @@ export class BookController {
   }
 
   @Post('create')
-  @Auth([RoleType.USER])
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: BookDto, description: 'Book Successfully Created' })
   async createBook(@Body() createBookDto: CreateBookDto): Promise<BookDto> {
