@@ -11,6 +11,7 @@ define(BookEntity, () => {
   book.genre = ['fantasy'];
   book.picture =
     'https://irs.www.warnerbros.com/keyart-jpeg/movies/media/browser/lord_of_the_rings_fellowship_of_the_ring_2000x3000.jpg';
+  book.description = '<p>This is a long description with html tags...</p>';
   book.price = 200;
 
   return book;
