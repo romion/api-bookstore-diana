@@ -10,8 +10,8 @@ export class BookEntity extends AbstractEntity<BookDto> {
   @Column()
   name: string;
 
-  @Column({ nullable: true })
-  isBestseller?: boolean;
+  @Column({ nullable: true, default: false })
+  isBestseller?: boolean = false;
 
   @Column()
   author: string;

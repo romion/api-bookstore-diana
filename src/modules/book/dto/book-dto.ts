@@ -1,11 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 import { AbstractDto } from '../../../common/dto/abstract.dto';
 import type { BookEntity } from '../book.entity';
@@ -16,8 +10,7 @@ export class BookDto extends AbstractDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiPropertyOptional()
-  @IsBoolean()
+  @ApiPropertyOptional({ nullable: true, default: false })
   isBestseller?: boolean;
 
   @ApiProperty()
@@ -25,7 +18,7 @@ export class BookDto extends AbstractDto {
   @IsNotEmpty()
   author: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ nullable: true })
   @IsNumber()
   pages?: number;
 
