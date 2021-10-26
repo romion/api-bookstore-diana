@@ -19,8 +19,8 @@ export class BookEntity extends AbstractEntity<BookDto> {
   @Column({ nullable: true })
   pages?: number;
 
-  @Column({ nullable: true })
-  genre?: string;
+  @Column('simple-array')
+  genre?: string[];
 
   @Column({ nullable: true })
   picture?: string;

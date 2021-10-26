@@ -20,9 +20,9 @@ export class CreateBookDto {
   @IsNumber()
   pages?: number;
 
-  @ApiPropertyOptional()
-  @IsString()
-  genre?: string;
+  @ApiPropertyOptional({ type: [String] })
+  @IsString({ each: true })
+  genre?: string[];
 
   @ApiPropertyOptional()
   @IsString()
