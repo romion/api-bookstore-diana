@@ -5,7 +5,7 @@ export class CreateBookDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  name?: string;
+  name: string;
 
   @ApiPropertyOptional()
   @IsBoolean()
@@ -14,26 +14,28 @@ export class CreateBookDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  author?: string;
+  author: string;
 
   @ApiPropertyOptional()
   @IsNumber()
   pages?: number;
 
-  @ApiPropertyOptional({ type: [String] })
+  @ApiProperty({ type: [String] })
   @IsString({ each: true })
-  genre?: string[];
+  @IsNotEmpty()
+  genre: string[];
 
   @ApiPropertyOptional()
   @IsString()
   picture?: string;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @IsString()
-  description?: string;
+  @IsNotEmpty()
+  description: string;
 
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
-  price?: number;
+  price: number;
 }

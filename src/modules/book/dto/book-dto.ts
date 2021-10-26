@@ -14,7 +14,7 @@ export class BookDto extends AbstractDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  name?: string;
+  name: string;
 
   @ApiPropertyOptional()
   @IsBoolean()
@@ -23,28 +23,30 @@ export class BookDto extends AbstractDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  author?: string;
+  author: string;
 
   @ApiPropertyOptional()
   @IsNumber()
   pages?: number;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @IsArray()
-  genre?: string[];
+  @IsNotEmpty()
+  genre: string[];
 
   @ApiPropertyOptional()
   @IsString()
   picture?: string;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
   @IsString()
-  description?: string;
+  @IsNotEmpty()
+  description: string;
 
   @ApiProperty()
   @IsNumber()
   @IsNotEmpty()
-  price?: number;
+  price: number;
 
   constructor(book: BookEntity) {
     super(book);
@@ -54,6 +56,7 @@ export class BookDto extends AbstractDto {
     this.pages = book.pages;
     this.genre = book.genre;
     this.picture = book.picture;
+    this.description = book.description;
     this.price = book.price;
   }
 }

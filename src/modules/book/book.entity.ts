@@ -7,27 +7,27 @@ import { BookDto } from './dto/book-dto';
 @Entity({ name: 'books' })
 @UseDto(BookDto)
 export class BookEntity extends AbstractEntity<BookDto> {
-  @Column({ nullable: true })
-  name?: string;
+  @Column()
+  name: string;
 
   @Column({ nullable: true })
   isBestseller?: boolean;
 
-  @Column({ nullable: true })
-  author?: string;
+  @Column()
+  author: string;
 
   @Column({ nullable: true })
   pages?: number;
 
   @Column('simple-array')
-  genre?: string[];
+  genre: string[];
 
   @Column({ nullable: true })
   picture?: string;
 
-  @Column({ nullable: true })
-  description?: string;
+  @Column()
+  description: string;
 
-  @Column({ nullable: true })
-  price?: number;
+  @Column()
+  price: number;
 }
