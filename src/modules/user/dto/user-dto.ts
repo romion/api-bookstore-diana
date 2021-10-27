@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 import { RoleType } from '../../../common/constants/role-type';
 import { AbstractDto } from '../../../common/dto/abstract.dto';
@@ -12,9 +12,6 @@ export class UserDto extends AbstractDto {
 
   @ApiPropertyOptional()
   lastName?: string;
-
-  @ApiProperty()
-  username: string;
 
   @ApiPropertyOptional({ enum: RoleType })
   role: RoleType;

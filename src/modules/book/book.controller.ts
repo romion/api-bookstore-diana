@@ -6,14 +6,15 @@ import {
   HttpStatus,
   Post,
   Query,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { RoleType } from '../../common/constants/role-type';
 import { PageDto } from '../../common/dto/page.dto';
+import { PageOptionsDto } from '../../common/dto/page-options.dto';
+import { Auth } from '../../decorators/http.decorators';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
-import { BooksPageOptionsDto } from './dto/books-page-options.dto';
 import { CreateBookDto } from './dto/CreateBookDto';
 
 @Controller('books')
@@ -28,14 +29,14 @@ export class BookController {
     description: 'Get books list',
     type: PageDto,
   })
-  getBooks(
-    @Query(new ValidationPipe({ transform: true }))
-    pageOptionsDto: BooksPageOptionsDto,
+  async getBooks(
+    @Query() pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<BookDto>> {
     return this.bookService.getBooks(pageOptionsDto);
   }
 
-  @Post('create')
+  @Post()
+  @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: BookDto, description: 'Book Successfully Created' })
   async createBook(@Body() createBookDto: CreateBookDto): Promise<BookDto> {
