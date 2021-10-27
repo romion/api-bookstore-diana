@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -14,6 +15,7 @@ import { RoleType } from '../../common/constants/role-type';
 import { PageDto } from '../../common/dto/page.dto';
 import { PageOptionsDto } from '../../common/dto/page-options.dto';
 import { Auth, UUIDParam } from '../../decorators/http.decorators';
+import type { BookEntity } from './book.entity';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
 import { CreateBookDto } from './dto/CreateBookDto';
@@ -55,6 +57,20 @@ export class BookController {
     const createdBook = await this.bookService.createBook(createBookDto);
 
     return createdBook.toDto();
+  }
+
+  @Put(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Book Successfully Updated',
+    type: BookDto,
+  })
+  updateBook(
+    @UUIDParam('id') bookId: string,
+    @Body() createBookDto: CreateBookDto,
+  ): Promise<BookEntity | undefined> {
+    return this.bookService.updateBook(bookId, createBookDto);
   }
 
   @Delete(':id')

@@ -49,6 +49,21 @@ export class BookService {
     return this.bookRepository.save(user);
   }
 
+  async updateBook(
+    bookId: string,
+    newValue: CreateBookDto,
+  ): Promise<BookEntity | undefined> {
+    const book = await this.bookRepository.findOneOrFail(bookId);
+
+    if (!book.id) {
+      throw new BookNotFoundException();
+    }
+
+    await this.bookRepository.update(bookId, newValue);
+
+    return this.bookRepository.findOne(bookId);
+  }
+
   async deleteBook(bookId: string): Promise<void> {
     await this.bookRepository
       .createQueryBuilder('book')
