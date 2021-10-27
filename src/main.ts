@@ -10,6 +10,7 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import compression from 'compression';
 import RateLimit from 'express-rate-limit';
+import fs from 'fs';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import {
@@ -30,7 +31,15 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
-    { cors: true },
+    {
+      cors: true,
+      httpsOptions: {
+        key: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/privkey.pem'),
+        cert: fs.readFileSync(
+          '/etc/letsencrypt/live/di-shop.pp.ua/fullchain.pem',
+        ),
+      },
+    },
   );
 
   const configService = app.select(SharedModule).get(ApiConfigService);
