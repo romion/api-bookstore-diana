@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PageDto } from '../../common/dto/page.dto';
 import { PageMetaDto } from '../../common/dto/page-meta.dto';
 import type { PageOptionsDto } from '../../common/dto/page-options.dto';
+import { BookNotFoundException } from '../../exceptions/book-not-found.exception';
 import type { BookEntity } from './book.entity';
 import { BookRepository } from './book.repository';
 import type { BookDto } from './dto/book-dto';
@@ -28,9 +29,31 @@ export class BookService {
     return new PageDto(entities, pageMetaDto);
   }
 
+  async getBook(bookId: string): Promise<BookDto> {
+    const queryBuilder = this.bookRepository.createQueryBuilder('book');
+
+    queryBuilder.where('book.id = :bookId', { bookId });
+
+    const bookEntity = await queryBuilder.getOne();
+
+    if (!bookEntity) {
+      throw new BookNotFoundException();
+    }
+
+    return bookEntity.toDto();
+  }
+
   async createBook(bookDto: CreateBookDto): Promise<BookEntity> {
     const user = this.bookRepository.create(bookDto);
 
     return this.bookRepository.save(user);
+  }
+
+  async deleteBook(bookId: string): Promise<void> {
+    await this.bookRepository
+      .createQueryBuilder('book')
+      .delete()
+      .where('id = :bookId', { bookId })
+      .execute();
   }
 }

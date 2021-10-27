@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -12,7 +13,7 @@ import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RoleType } from '../../common/constants/role-type';
 import { PageDto } from '../../common/dto/page.dto';
 import { PageOptionsDto } from '../../common/dto/page-options.dto';
-import { Auth } from '../../decorators/http.decorators';
+import { Auth, UUIDParam } from '../../decorators/http.decorators';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
 import { CreateBookDto } from './dto/CreateBookDto';
@@ -35,6 +36,17 @@ export class BookController {
     return this.bookService.getBooks(pageOptionsDto);
   }
 
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get books list',
+    type: BookDto,
+  })
+  getBook(@UUIDParam('id') bookId: string): Promise<BookDto> {
+    return this.bookService.getBook(bookId);
+  }
+
   @Post()
   @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
@@ -43,5 +55,13 @@ export class BookController {
     const createdBook = await this.bookService.createBook(createBookDto);
 
     return createdBook.toDto();
+  }
+
+  @Delete(':id')
+  @Auth([RoleType.ADMIN])
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: BookDto, description: 'Book Successfully Deleted' })
+  async deleteBook(@UUIDParam('id') bookId: string): Promise<void> {
+    return this.bookService.deleteBook(bookId);
   }
 }
