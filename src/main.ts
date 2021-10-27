@@ -35,9 +35,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
       cors: true,
       httpsOptions: {
         key: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/privkey.pem'),
-        cert: fs.readFileSync(
-          '/etc/letsencrypt/live/di-shop.pp.ua/fullchain.pem',
-        ),
+        cert: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/cert.pem'),
       },
     },
   );
