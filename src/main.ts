@@ -36,6 +36,7 @@ export async function bootstrap(): Promise<NestExpressApplication> {
       httpsOptions: {
         key: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/cert.pem'),
+        ca: fs.readFileSync('/etc/letsencrypt/live/di-shop.pp.ua/chain.pem'),
       },
     },
   );
