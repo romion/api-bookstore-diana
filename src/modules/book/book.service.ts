@@ -7,6 +7,7 @@ import { BookNotFoundException } from '../../exceptions/book-not-found.exception
 import type { BookEntity } from './book.entity';
 import { BookRepository } from './book.repository';
 import type { BookDto } from './dto/book-dto';
+import type { BookFilterDto } from './dto/book-filter.dto';
 import type { CreateBookDto } from './dto/CreateBookDto';
 
 @Injectable()
@@ -62,6 +63,13 @@ export class BookService {
     await this.bookRepository.update(bookId, newValue);
 
     return this.bookRepository.findOne(bookId);
+  }
+
+  async filterBooks(filter: BookFilterDto): Promise<BookEntity[] | undefined> {
+    return this.bookRepository
+      .createQueryBuilder('book')
+      .where('book.genre like :genre', { genre: filter.genre + '%' })
+      .getMany();
   }
 
   async deleteBook(bookId: string): Promise<void> {

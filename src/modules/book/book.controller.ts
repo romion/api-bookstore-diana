@@ -18,6 +18,7 @@ import { Auth, UUIDParam } from '../../decorators/http.decorators';
 import type { BookEntity } from './book.entity';
 import { BookService } from './book.service';
 import { BookDto } from './dto/book-dto';
+import { BookFilterDto } from './dto/book-filter.dto';
 import { CreateBookDto } from './dto/CreateBookDto';
 
 @Controller('books')
@@ -36,6 +37,19 @@ export class BookController {
     @Query() pageOptionsDto: PageOptionsDto,
   ): Promise<PageDto<BookDto>> {
     return this.bookService.getBooks(pageOptionsDto);
+  }
+
+  @Get('filter')
+  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get filtered books',
+    type: BookDto,
+  })
+  getBooksByGenre(
+    @Query() filter: BookFilterDto,
+  ): Promise<BookEntity[] | undefined> {
+    return this.bookService.filterBooks(filter);
   }
 
   @Get(':id')
@@ -60,6 +74,7 @@ export class BookController {
   }
 
   @Put(':id')
+  @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
