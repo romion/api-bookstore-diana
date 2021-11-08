@@ -6,16 +6,13 @@ import {
   HttpStatus,
   Post,
   UploadedFile,
-  UseGuards,
-  UseInterceptors,
-  Version,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+import { RoleType } from '../../common/constants/role-type';
 import { AuthUser } from '../../decorators/auth-user.decorator';
+import { Auth } from '../../decorators/http.decorators';
 import { ApiFile } from '../../decorators/swagger.schema';
-import { AuthGuard } from '../../guards/auth.guard';
-import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { IFile } from '../../interfaces';
 import { UserDto } from '../user/dto/user-dto';
 import { UserEntity } from '../user/user.entity';
@@ -67,12 +64,9 @@ export class AuthController {
     });
   }
 
-  @Version('1')
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard())
-  @UseInterceptors(AuthUserInterceptor)
-  @ApiBearerAuth()
+  @Auth([RoleType.USER, RoleType.ADMIN])
   @ApiOkResponse({ type: UserDto, description: 'current user info' })
   getCurrentUser(@AuthUser() user: UserEntity): UserDto {
     return user.toDto();
